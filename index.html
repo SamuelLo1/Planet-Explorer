@@ -2,37 +2,55 @@
 <html>
 
 <head>
-    <title>LA TV Shows | Home</title>
+    <title>Solar System | Home</title>
     <meta name="description" content="A Catalog of Shows Set in Los Angeles">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css" />
-    <script type="text/javascript" src="scripts.js"></script>
+    <script type="module" src="scripts.js"></script>
 </head>
 
 <body>
+    <!--
+    <div class = "container">
+        <nav class = "navbar">
+            <ul>
+                <li>🛰</li>
+                <li>Add Planet</li>
+                <li>Remove Planet</li>  
+                <li>Sort Planets</li>
+            </ul>
+        </nav>
+    </div>
+    -->
     <header class="main-header">
-        <h1 class="title">LA TV Shows</h1>
+        <h1 class="title">Solar System Planets 🪐</h1>
     </header>
-    <div id="card-container">
-        
+    <div class="sortSection">
+        <h2>Sorted By:</h2>   
+        <div class="dropdown">
+            <button class="dropbtn">Dropdown Button</button>
+            <div class="dropdown-content">
+            <button id="temperatureSort"> Temperature </button>
+            <button id="distanceSort"> Distance </button>
+            <button id="diameterSort"> Diameter </button>
+            </div>
+        </div>
+        <button> Add Planet</button>
+        <button> Remove Planet</button>
+    </div>
+        <div id="card-container">
+    </div>
     </div>
     <div class="card" style="display: none;">
         <div class="card-content">
             <h2>TV Show Title</h2>
-            <img src="" alt="TV Show Poster">
-            <ul>
-                <li>Bullet Point 1</li>
-                <li>Bullet Point 2</li>
-                <li>Bullet Point 3</li>
+            <div class="img-wrapper">
+                <img src="" alt="planet image">
+            </div>
+            <ul id="bullet-points">
+           
             </ul>
         </div>
-    </div>
-    <div class="footer">
-        <button onclick="quoteAlert();">
-            Get A Quote!
-        </button>
-        <button onclick="removeLastCard();">
-            Remove A Card!
-        </button>
     </div>
 </body>
 
