@@ -1,9 +1,5 @@
 html,
 
-.container{
-    display: flex; 
-    justify-content: center;
-}
 body {
     /* Use "linear-gradient" to add a darken background effect to the image. This will make the text easier to read */
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=2693&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
@@ -34,7 +30,6 @@ body {
 section {
     display: flex; 
     justify-content:center; 
-    
 }
 
 section h2{
@@ -113,9 +108,7 @@ button {
     font-size: 22px;
     cursor: pointer;
     margin: 5px;
-    transition: background-color 0.3s, transform 0.3s; 
-
-    
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 #addPlanetButton {
@@ -143,7 +136,6 @@ button {
 .deactivated-button {
     background-color: grey !important; /*overrides other background colors make sure to remove when needed*/
     cursor: not-allowed; 
-   
 }
 
 .dropdown {
@@ -160,6 +152,7 @@ button {
     border: none;
     cursor: pointer;
 }
+
 /* The button used to open the dropdown */
 .dropbtn:hover {
     background-color: #04289f;
@@ -180,8 +173,7 @@ button {
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
-
-/* Links inside the dropdown */
+/*buttons within dropdown*/
 .dropdown-content button {
     background-color: rgb(7, 81, 208);
 }
@@ -190,6 +182,7 @@ button {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
 .dropdown-content button:hover {
     background-color: #181313;
     transform: scale(1.1);
@@ -247,7 +240,6 @@ button {
     transform: translateX(26px);
   }
   
-  /* Rounded sliders */
   .slider.round {
     border-radius: 34px;
   }
