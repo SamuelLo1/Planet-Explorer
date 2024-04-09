@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Solar System | Home</title>
+    <title>Planet Explorer | Home</title>
     <meta name="description" content="A Catalog of Shows Set in Los Angeles">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css" />
@@ -10,40 +10,39 @@
 </head>
 
 <body>
-    <!--
-    <div class = "container">
-        <nav class = "navbar">
-            <ul>
-                <li>🛰</li>
-                <li>Add Planet</li>
-                <li>Remove Planet</li>  
-                <li>Sort Planets</li>
-            </ul>
-        </nav>
-    </div>
-    -->
     <header class="main-header">
-        <h1 class="title">Solar System Planets 🪐</h1>
+        <h1 class="title">Planet Explorer 🪐</h1>
     </header>
-    <div class="sortSection">
-        <h2>Sorted By:</h2>   
+    <div class="control-bar">
+        <section>
+            <h2>Sorted By: </h2>
+            <h2 id="sort-method"> Distance from sun</h2>   
+        </section>
         <div class="dropdown">
-            <button class="dropbtn">Dropdown Button</button>
+            <button class="dropbtn">Sort Planets By:</button>
             <div class="dropdown-content">
-            <button id="temperatureSort"> Temperature </button>
-            <button id="distanceSort"> Distance </button>
-            <button id="diameterSort"> Diameter </button>
+                <button id="temperatureSort"> Temperature </button>
+                <button id="distanceSort"> Distance </button>
+                <button id="diameterSort"> Diameter </button>
             </div>
         </div>
-        <button> Add Planet</button>
-        <button> Remove Planet</button>
+        <div class="toggleExo"> 
+            <p> Exo-planets </p>
+            <label class="switch">
+                <input id="exoToggle" type="checkbox" checked>
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="buttonSection"> 
+            <button id="addPlanetButton"> Add Planet</button>
+            <button id="removePlanetButton"> Remove Planet</button>
+        </div>
     </div>
         <div id="card-container">
-    </div>
-    </div>
+        </div>
     <div class="card" style="display: none;">
         <div class="card-content">
-            <h2>TV Show Title</h2>
+            <h2>Planet Name</h2>
             <div class="img-wrapper">
                 <img src="" alt="planet image">
             </div>

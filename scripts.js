@@ -22,46 +22,30 @@
  *    with the string you added to the array, but a broken image.
  * 
  */
-/**
- * TODO: 
- *  - Get DataSet of Planets
- *  - Create a plan for the design
- *  - Create card design for the planets
- *  - sort by temperature, by density, by mass... 
- *  - implement
- */
-// static 
-
-//Pass in planets array and popualte planets initially with static data
-
-//navBar needed and add/ remove planet 
-import planetData from './planetData/planets.JSON' assert { type: 'json' };
-
-const planets = planetData; 
-
-
-const FRESH_PRINCE_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_0ecbLBszB2NTkK0ofZnm0wMWUtzkWh90_g&s";
-const CURB_POSTER_URL = "https://m.media-amazon.com/images/M/MV5BZDY1ZGM4OGItMWMyNS00MDAyLWE2Y2MtZTFhMTU0MGI5ZDFlXkEyXkFqcGdeQXVyMDc5ODIzMw@@._V1_FMjpg_UX1000_.jpg";
-const EAST_LOS_HIGH_POSTER_URL = "https://i.pinimg.com/736x/4f/d9/94/4fd994c3e084d26f9e5df370a59506b6.jpg";
-// This is an array of strings (TV show titles)
-let titles = [
-    "Fresh Prince of Bel Air",
-    "Curb Your Enthusiasm",
-    "East Los High"
-];
-
-
 // Your final submission should have much more data than this, and 
 // you should use more than just an array of strings to store it all.
 
+import planetData from './planetData/planets.JSON' assert { type: 'json' };
 
+//create copies of the planetData 
+//overall is the reference for adding planets
+//planets keeps track of the current planets without filter
+//filtered keeps track of current planets with filter
+const overallPlanets = [...planetData.planets]; 
+let planets = [...planetData.planets]; 
+let filteredPlanets = [...planetData.planets];
+//boolean to keep track of if exoPlanet filter is on or not
+var exoPlanetFilter = true; 
+
+// On initial load, remove a planet to allow "addPlanet" to be used
+planets.pop();
 // This function adds cards the page to display the data in the array
 function showCards(planetData) {
     const cardContainer = document.getElementById("card-container");
     cardContainer.innerHTML = "";
     const templateCard = document.querySelector(".card");
-    for (let i = 0; i < planetData.planets.length; i++) {
-        const planet = planetData.planets[i];
+    for (let i = 0; i < planetData.length; i++) {
+        const planet = planetData[i];
         const nextCard = templateCard.cloneNode(true); // Copy the template card
         editCardContent(nextCard, planet); // Edit title and image
         cardContainer.appendChild(nextCard); // Add new card to the container
@@ -70,16 +54,16 @@ function showCards(planetData) {
 
 function editCardContent(card, planet) {
     card.style.display = "block";
-
+    //fill name
     const cardHeader = card.querySelector("h2");
-    cardHeader.textContent = planet.name;;
-
+    cardHeader.textContent = planet.name;
+    //fill image
     const cardImage = card.querySelector("img");
     cardImage.src = planet.imgurl;
     cardImage.alt = planet.name + " Poster";
 
     const cardContent = card.querySelector("ul")
-
+    //create bullet points
     const density = document.createElement("li");
     density.textContent = "Density: " + planet.density + "g/cm³";
     const mass = document.createElement("li");
@@ -90,7 +74,7 @@ function editCardContent(card, planet) {
     distanceFromSun.textContent = "Distance From Sun: " + planet.distanceFromSun + "km";
     const diameter = document.createElement("li");
     diameter.textContent = "Diameter: " + planet.diameter + "km";
-
+    //bullet points add to card
     cardContent.appendChild(diameter);
     cardContent.appendChild(distanceFromSun);
     cardContent.appendChild(density); 
@@ -104,84 +88,131 @@ function editCardContent(card, planet) {
 }
 
 // This calls the addCards() function when the page is first loaded
-function quoteAlert() {
-    console.log("Button Clicked!")
-    alert("I guess I can kiss heaven goodbye, because it got to be a sin to look this good!");
-}
+function updateButtons(exoPlanet = false) {
+    const removeButton = document.getElementById("removePlanetButton");
+    const addButton = document.getElementById("addPlanetButton");
 
-function removeLastCard() {
-    planets.planets.pop(); // Remove last item in titles array
-    showCards(planets); // Call showCards again to refresh
-}
-
-function sortDiameter() {
-    // Assuming planetData.planets is the array you want to sort
-    planetData.planets.sort((a, b) => {
-        // Convert diameters to numbers if they're not already (just in case)
-        const diameterA = Number(a.diameter);
-        const diameterB = Number(b.diameter);
-
-        // Compare the diameters for sorting
-        return diameterA - diameterB;
-    });
-
-    // After sorting, you might want to display the sorted cards
-    showCards(planetData);
-}
-
-function sortTemperature() {
-    // Assuming planetData.planets is the array you want to sort
-    planetData.planets.sort((a, b) => {
-        // Convert diameters to numbers if they're not already (just in case)
-        const tempA = Number(a.temperature);
-        const tempB = Number(b.temperature);
-
-        // Compare the diameters for sorting
-        return tempA - tempB;
- 
-    });
-    showCards(planetData);
-}
-
-function sortDistance(){
-    planetData.planets.sort((a, b) => {
-        // Convert diameters to numbers if they're not already (just in case)
-        const distanceA = Number(a.distanceFromSun);
-        const distanceB = Number(b.distanceFromSun);
-
-        // Compare the diameters for sorting
-        return distanceA - distanceB;
- 
-    });
-    showCards(planetData);
-}
-document.addEventListener("DOMContentLoaded", showCards(planets));
-//handle button clicks and dropdown
-document.addEventListener('DOMContentLoaded', () => {
-    const quoteButton = document.getElementById('quote-button'); // Ensure your button has this ID
-    if (quoteButton) {
-        quoteButton.addEventListener('click', quoteAlert);
+    if (planets.length === 0 || filteredPlanets.length === 0) {
+        removeButton.classList.add("deactivated-button");
+    } else {
+        removeButton.classList.remove("deactivated-button");
+    }
+    //if the filter is turned on and all the solar system planets are there, disable button
+    //if exoPlanet is being added, it means that all solar system planets already added
+    if (exoPlanet && exoPlanetFilter == false){
+        addButton.classList.add("deactivated-button");
+    } else if (planets.length >= overallPlanets.length) {
+        addButton.classList.add("deactivated-button");
+    } else {
+        addButton.classList.remove("deactivated-button");
     }
 
-    const removeButton = document.getElementById('remove-button'); // Ensure your button has this ID
+    
+}
+//updates button UI
+//updates if exo planets are to be displayed
+//updates the cards shown on screen 
+function updateUI(exoPlanet = false){
+    filteredPlanets = filterExo();
+    updateButtons(exoPlanet);
+    showCards(filteredPlanets);
+}
+
+
+//filter removes planets
+function removeLastCard() {
+    //need to remove the right element from planets with the filter on
+    if (exoPlanetFilter == false){
+        //get last element from filteredPlanets
+        planets.splice(exoPlanetFilter.length ,1); 
+        updateUI();
+    }
+    //if no filter remove last el
+    else if (planets.length > 0){
+        planets.pop();
+        updateUI();
+    }
+}
+//adding needs to search for next availible planet to be dynamic 
+function addCard() {
+    //when adding a planet it isn't dynamically sorted, so update UI to show no sort pattern
+    const sortLabel = document.getElementById("sort-method");
+     
+
+    //find next availible planet to add
+    const planetToAdd = overallPlanets.find(planet => !planets.includes(planet));
+    if (exoPlanetFilter == false && planetToAdd.exoPlanet == true){
+        updateUI(planetToAdd.exoPlanet);
+        sortLabel.innerText = "None"; 
+    }
+
+    // If such a planet exists, add it to planets and update the UI
+    else if (planetToAdd) {
+        planets.push(planetToAdd);
+        updateUI();
+        sortLabel.innerText = "None";
+    }
+}
+
+//sort the planets 
+function sortPlanets(method) {
+    const sortLabel=  document.getElementById("sort-method");
+    // Sort based on the method provided (diameter, temperature, distance)
+    if (method === 'diameter') {
+        planets.sort((a, b) => Number(a.diameter) - Number(b.diameter));
+        sortLabel.innerText = "Diameter";
+    } else if (method === 'temperature') {
+        planets.sort((a, b) => Number(a.temperature) - Number(b.temperature));
+        sortLabel.innerText = "Temperature";
+    } else if (method === 'distance') {
+        planets.sort((a, b) => Number(a.distanceFromSun) - Number(b.distanceFromSun));
+        sortLabel.innerText = "Distance from sun";
+    }
+    updateUI();
+}
+
+//update boolean everytime change detected
+//switching the switch on essentially hides the exoplanets so they cannot be editted by remove or add Planet functionality
+//by switching the switch to show exoplanets, they are brought back in their previous state before hiding
+function toggleExoPlanets(){
+    exoPlanetFilter = !exoPlanetFilter; 
+    updateUI();
+}
+
+//filter the exoPlanets from solar system planets
+function filterExo(){
+    if (exoPlanetFilter == false){
+        return planets.filter(planet => !planet.exoPlanet)
+    } else {
+        return planets; 
+    }
+}
+//handle pageload and also button clicks or checkboxes
+document.addEventListener('DOMContentLoaded', () => {
+    showCards(planets);
+    const addPlanetButton = document.getElementById('addPlanetButton'); // Ensure your button has this ID
+    if (addPlanetButton){
+        addPlanetButton.addEventListener('click', () => addCard());
+    }
+    const removeButton = document.getElementById('removePlanetButton'); // Ensure your button has this ID
     if (removeButton) {
-        removeButton.addEventListener('click', () => removeLastCard(planets)); // Assuming planets is accessible here
+        removeButton.addEventListener('click', () => removeLastCard(planets)); 
     }
 
     const sortDiameterButton = document.getElementById('diameterSort');
-    if (sortDiameter) {
-        sortDiameterButton.addEventListener('click', () => sortDiameter()); // Assuming planets is accessible here
-    }
+    sortDiameterButton.addEventListener('click', () => sortPlanets('diameter')); 
+    
 
     const sortTemperatureButton = document.getElementById('temperatureSort');
-    if (sortTemperature) {
-        sortTemperatureButton.addEventListener('click', () => sortTemperature()); // Assuming planets is accessible here
-    }
+    sortTemperatureButton.addEventListener('click', () => sortPlanets('temperature')); 
+    
 
     const sortDistanceButton = document.getElementById('distanceSort');
-    if (sortDistance) {
-        sortDistanceButton.addEventListener('click', () => sortDistance()); // Assuming planets is accessible here
-    }
+    sortDistanceButton.addEventListener('click', () => sortPlanets('distance')); 
+    
+    const exoToggle = document.getElementById('exoToggle');
+    exoToggle.addEventListener('change', ()=> toggleExoPlanets());
+
 });
 
 
