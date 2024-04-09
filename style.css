@@ -44,8 +44,8 @@ section h2{
     color: white;
 }
 #card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /*fit max cards per row*/
+    display: flex;
+    flex-wrap: wrap; 
     gap: 20px; 
     justify-content: center; /* This centers the grid items in the container if there's extra space */
     margin: 20px; 
