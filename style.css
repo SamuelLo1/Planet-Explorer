@@ -200,6 +200,7 @@ button {
     display: inline-block;
     width: 60px;
     height: 34px;
+    margin-left:5px; 
   }
   
   .switch input { 
@@ -257,6 +258,6 @@ button {
  
   .toggleExo {
     display: flex; 
-    justify-content: center;
-    font-size: 20px; 
+    align-items: center;
+    justify-content: space-between;
   }
